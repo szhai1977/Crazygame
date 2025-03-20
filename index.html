@@ -25,24 +25,26 @@
                 <h2>2048</h2>
                 <p class="description">简介</p>
             </div>
-            <div class="menu-item">
+            <div class="menu-item" onclick="loadGame('https://lindi761.github.io/game7/')">
                 <h2>Crazy Box</h2>
-                <p class="description">简介</p>
+                <p class="description">一个有趣的盒子游戏，点击开始玩！</p>
             </div>
-            <div class="menu-item">
+            <div class="menu-item" onclick="loadGame('https://szhai1977.github.io/game1/')">
                 <h2>鸟</h2>
-                <p class="description">简介</p>
+                <p class="description">经典的飞鸟游戏，躲避障碍物获得高分！</p>
             </div>
         </nav>
 
         <main class="game-container">
             <div class="control-panel">
-                <button class="full-screen">Full Screen</button>
-                <button class="esc">Esc</button>
+                <button class="full-screen" onclick="toggleFullScreen()">Full Screen</button>
+                <button class="esc" onclick="closeGame()">Esc</button>
             </div>
             
             <div class="game-screen">
-                <div class="game-view"></div>
+                <div class="game-view" id="gameView">
+                    <iframe id="gameFrame" frameborder="0" style="display: none; width: 100%; height: 100%;"></iframe>
+                </div>
                 <div class="game-controls">
                     <button class="control-btn up">↑</button>
                     <button class="control-btn down">↓</button>
@@ -53,8 +55,48 @@
 
             <div class="rules-panel">
                 <h3>规则</h3>
+                <div id="gameRules"></div>
             </div>
         </main>
     </div>
+
+    <script>
+        function loadGame(url) {
+            const gameFrame = document.getElementById('gameFrame');
+            const gameRules = document.getElementById('gameRules');
+            
+            gameFrame.src = url;
+            gameFrame.style.display = 'block';
+            
+            // 更新规则面板
+            if (url === 'https://lindi761.github.io/game7/') {
+                gameRules.innerHTML = '点击开始游戏，控制方向键移动盒子到目标位置。';
+            } else if (url === 'https://szhai1977.github.io/game1/') {
+                gameRules.innerHTML = '点击屏幕或按空格键让小鸟跳跃，躲避管道障碍物。每通过一个管道获得1分，碰到管道或地面游戏结束。';
+            }
+        }
+
+        function closeGame() {
+            const gameFrame = document.getElementById('gameFrame');
+            const gameRules = document.getElementById('gameRules');
+            
+            gameFrame.src = '';
+            gameFrame.style.display = 'none';
+            gameRules.innerHTML = '';
+        }
+
+        function toggleFullScreen() {
+            const gameScreen = document.querySelector('.game-screen');
+            if (!document.fullscreenElement) {
+                if (gameScreen.requestFullscreen) {
+                    gameScreen.requestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+    </script>
 </body>
 </html> 
